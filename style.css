@@ -1,0 +1,23 @@
+#table {
+  border: 1px solid red;
+  padding: 20px;
+}
+
+#messages {
+  border: 1px solid blue;
+  padding: 40px;
+}
+
+#dealer-hand {
+  border: 1px solid green;
+  padding: 40px;
+}
+
+#player-hand {
+  border: 1px solid green;
+  padding: 40px;
+}
+
+img {
+  width: 10%;
+}
