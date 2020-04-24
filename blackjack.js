@@ -2,6 +2,10 @@
 const suits = ["spades", "diamonds", "clubs", "hearts"];
 const points = [1, 2, 3, 4, 5, 5, 7, 8, 8, 10, 11, 12, 13]
 
+// Assigning arrays for Player Hand and Dealer Hand
+let dealerHandArray = [];
+let playerHandArray = [];
+
 // function to create our deck
 function makeDeck() {
   let deck = [];
@@ -16,7 +20,9 @@ function makeDeck() {
 
 // shuffle function built using the Fisher-Yates Shuffle algorithm
 function shuffle(array) {
-  let currentIndex = array.length, tempValue, randomIndex;
+  let currentIndex = array.length;
+  let randomIndex = 0;
+  let tempValue = 0;
 
   // while the array is not empty
   while (0 != currentIndex) {
@@ -55,56 +61,102 @@ function getCardImageURL(card) {
 // build a render function for rendering the card image
 function renderImage(url) {
   return `
-    <div class="card">
+    <div class="image">
       <img src='${url}' />
     </div>
   `
 }
 
-let deck = makeDeck()
+// build a render function for rendering the point total
+function renderScore(score) {
+  return `
+    <div class="score">
+      ${score}
+    </div>
+  `
+}
+
+// testing area
+let deck = makeDeck();
 console.log(deck);
 shuffle(deck);
 console.log(deck[2]);
-let url = getCardImageURL(deck[2])
-console.log(url)
-const test = document.querySelector('#messages');
-test.innerHTML = renderImage(url)
-// let dealerHandArray = [];
-// let playerHandArray = [];
+// let url = getCardImageURL(deck[2]);
+// console.log(url);
+// const test = document.querySelector('#messages');
+// test.innerHTML = renderImage(url);
 
+// Deal the Deck function
+function dealDeck(deck) {
+  dealerHandArray.push(deck.pop())
+  playerHandArray.push(deck.pop())
+  dealerHandArray.push(deck.pop())
+  playerHandArray.push(deck.pop())
+}
+
+
+// Display points and keep score
+function scoreKeeper(array) {
+  let score = 0;
+  array.forEach(function (card) {
+    if (card.point >= 10) {
+      score += 10
+    } else {
+      score += card.point;
+    }
+  })
+  return score;
+}
+
+console.log(playerHandArray)
+console.log(dealerHandArray)
+
+// Build the hit function
+function hitMe(deck) {
+
+}
+
+// deal event listener
 const deal = document.querySelector('#deal-button');
 deal.addEventListener('click', function(e){
-  console.log(e);
   const dealerHand = document.querySelector("#dealer-hand");
   const playerHand = document.querySelector("#player-hand");
-  const currentCard = deck.pop()
+  const dealerScore = document.querySelector("#dealer-points");
+  const playerScore = document.querySelector("#player-points");
+  dealDeck(deck)
   const cardImageOne = document.createElement('img');
   const cardImageTwo = document.createElement('img');
   const cardImageThree = document.createElement('img');
   const cardImageFour = document.createElement('img');
-  cardImageOne.setAttribute('src', "/images/5_of_spades.png")
-  cardImageTwo.setAttribute('src', "/images/king_of_diamonds.png")
-  cardImageThree.setAttribute('src', "/images/8_of_clubs.png")
-  cardImageFour.setAttribute('src', "/images/9_of_diamonds.png")
+  cardImageOne.src = getCardImageURL(dealerHandArray[0])
+  cardImageTwo.src = getCardImageURL(dealerHandArray[1])
+  cardImageThree.src = getCardImageURL(playerHandArray[0])
+  cardImageFour.src = getCardImageURL(playerHandArray[1])
   dealerHand.appendChild(cardImageOne)
   dealerHand.appendChild(cardImageTwo)
   playerHand.appendChild(cardImageThree)
   playerHand.appendChild(cardImageFour)
+  dealerScore.innerHTML = renderScore(scoreKeeper(dealerHandArray));
+  playerScore.innerHTML = renderScore(scoreKeeper(playerHandArray))
 })
 
 const hit = document.querySelector('#hit-button');
 hit.addEventListener('click', function(e){
   const playerHand = document.querySelector("#player-hand");
-  // const dealerHand = document.querySelector("#dealer-hand");
+  const dealerHand = document.querySelector("#dealer-hand");
+  // const cardImage = renderImage(getCardImageURL(deck[2]))
+
   const cardImage = document.createElement('img');
-  cardImage.setAttribute('src', "/images/jack_of_clubs2.png")
+  cardImage.src = getCardImageURL(deck[4])
+  // cardImage.setAttribute('src', "/images/jack_of_clubs2.png")
+  // playerHand.innerHTML = cardImage;
   playerHand.appendChild(cardImage)
-  // dealerHand.appendChild(cardImage)
+  dealerHand.appendChild(cardImage)
 })
 
 // console.log(getDeck())
 
-// Deal the Deck
+
 
 
 // Get Image

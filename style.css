@@ -18,6 +18,26 @@
   padding: 40px;
 }
 
+label {
+  display: flex;
+}
+
+#dealer-points {
+  border: 1px solid orange;
+  /* padding: 20px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#player-points {
+  border: 1px solid orange;
+  /* padding: 20px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 img {
   width: 20%;
 }
