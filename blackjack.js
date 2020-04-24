@@ -80,6 +80,28 @@ function renderScore(score) {
   `
 }
 
+// build a render function for rendering win message
+function renderWin() {
+  // const messages = document.querySelector("#messages");
+  // const messageDiv = document.createElement('div');
+  return `
+    <div class="win">
+      "Player wins!"
+    </div>
+  `
+}
+
+// build a render function for rendering loss message
+function renderLoss() {
+  // const messages = document.querySelector("#messages");
+  // const messageDiv = document.createElement('div');
+  return `
+    <div class="loss">
+      "Dealer wins!"
+    </div>
+  `
+}
+
 // testing area
 let deck = makeDeck();
 console.log(deck);
@@ -98,9 +120,8 @@ function dealDeck(deck) {
   playerHandArray.push(deck.pop())
 }
 
-
 // Display points and keep score
-function scoreKeeper(array) {
+function calculatePoints(array) {
   let score = 0;
   array.forEach(function (card) {
     if (card.point >= 10) {
@@ -121,30 +142,54 @@ function bust() {
   
 }
 
-// Build the hit function
+// Build the hit function for Player
 function hitPlayer(array) {
-    newCard = deck.pop()
-    array.push(newCard)
-    if (scoreKeeper(array) > 21) {
+    const messages = document.querySelector("#messages");
+    const messageDiv = document.createElement('div');
+    newCard = deck.pop();
+    array.push(newCard);
+    if (calculatePoints(array) > 21) {
+      messageDiv.innerHTML = "Player busted";
+      messages.appendChild(messageDiv)
       console.log("Player busted");
       hit.removeEventListener('click', function(e){});
       return
-    } else {
-    return array
+    } else if (calculatePoints(array) == 21) {
+      messageDiv.innerHTML = "Player wins!";
+      messages.appendChild(messageDiv)
+      console.log("Player wins!") 
+    }
+    else {
+      return array;
     }
 }
 
+// Build the hit function for Dealer
 function hitDealer(array) {
+  const messages = document.querySelector("#messages");
+  const messageDiv = document.createElement('div');
   newCard = deck.pop()
   array.push(newCard)
-  if (scoreKeeper(array) > 21) {
-    console.log("Dealer busted")
+  if (calculatePoints(array) > 21) {
+    messageDiv.innerHTML = "Dealer busted";
+    messages.appendChild(messageDiv)
+    console.log("Dealer busted");
     hit.removeEventListener('click', function(e){});
     return
-  } else {
-  return array
+  } else if (calculatePoints(array) == 21) {
+    messageDiv.innerHTML = "Dealer wins!";
+    messages.appendChild(messageDiv)
+    console.log("Dealer wins!");
+  }
+  else {
+    return array;
   }
 }
+
+// Build the function for checking score
+// function checkScore(dealer, player) {
+//   if
+// }
 
 // deal event listener
 const deal = document.querySelector('#deal-button');
@@ -167,12 +212,12 @@ deal.addEventListener('click', function(e){
     dealerHand.appendChild(cardImageTwo)
     playerHand.appendChild(cardImageThree)
     playerHand.appendChild(cardImageFour)
-    dealerScore = renderScore(scoreKeeper(dealerHandArray));
-    playerScore = renderScore(scoreKeeper(playerHandArray));
+    dealerScore = renderScore(calculatePoints(dealerHandArray));
+    playerScore = renderScore(calculatePoints(playerHandArray));
     dealerPoints.innerHTML = dealerScore;
     playerPoints.innerHTML = playerScore;
   }
-})
+});
 
 const hit = document.querySelector('#hit-button');
 hit.addEventListener('click', function(e){
@@ -180,26 +225,29 @@ hit.addEventListener('click', function(e){
   const dealerHand = document.querySelector("#dealer-hand");
   const dealerPoints = document.querySelector("#dealer-points");
   const playerPoints = document.querySelector("#player-points");
-  // const cardImage = renderImage(getCardImageURL(deck[2]))
-  hitDealer(dealerHandArray)
-  const cardImageDealer = document.createElement('img');
-  cardImageDealer.src = getCardImageURL(dealerHandArray[dealerHandArray.length - 1])
-  dealerHand.appendChild(cardImageDealer)
-  dealerScore = renderScore(scoreKeeper(dealerHandArray));
-  dealerPoints.innerHTML = dealerScore;
-  // if (dealerScore > 21) {
-  //   console.log("Dealer Bust")
-  // }
   hitPlayer(playerHandArray)
   const cardImagePlayer = document.createElement('img');
   cardImagePlayer.src = getCardImageURL(playerHandArray[playerHandArray.length - 1])
   playerHand.appendChild(cardImagePlayer)
-  playerScore = renderScore(scoreKeeper(playerHandArray));
+  playerScore = renderScore(calculatePoints(playerHandArray));
   playerPoints.innerHTML = playerScore;
-  // if (playerScore > 21) {
-  //   console.log("Player Bust")
-  // }
-})
+});
+
+const stand = document.querySelector('#stand-button');
+stand.addEventListener('click', function(e){
+  const dealerPoints = document.querySelector("#dealer-points");
+  const dealerHand = document.querySelector("#dealer-hand");
+  console.log("stand")
+  console.log(calculatePoints(dealerHandArray))
+  if (calculatePoints(dealerHandArray) <= 17) {
+    hitDealer(dealerHandArray)
+    const cardImageDealer = document.createElement('img');
+    cardImageDealer.src = getCardImageURL(dealerHandArray[dealerHandArray.length - 1])
+    dealerHand.appendChild(cardImageDealer)
+    dealerScore = renderScore(calculatePoints(dealerHandArray));
+    dealerPoints.innerHTML = dealerScore;
+  }
+});
 
 // console.log(getDeck())
 
