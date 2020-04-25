@@ -6,8 +6,9 @@ const points = [1, 2, 3, 4, 5, 5, 7, 8, 8, 10, 11, 12, 13]
 let dealerHandArray = [];
 let playerHandArray = [];
 
-// Assigning result variable for bet payout
-// let result = "";
+// Assigning result variables for bet payout
+let counterMoney = 500
+let counterBet = 0
 
 // Function to create our deck
 function makeDeck() {
@@ -182,24 +183,39 @@ function adjustMoney(result) {
   intBet = parseInt(playerBet.innerHTML);
   if (result == "won") {
     intMoney += (intBet * 2);
-    playerMoney.innerHTML = intMoney
-    intBet = 0
-    playerBet.innerHTML = intBet;
-  } else if (result == "lost") {
-    intMoney -= intBet;
     playerMoney.innerHTML = intMoney;
-    intBet = 0
+    counterMoney = intMoney;
+    intBet = 0;
     playerBet.innerHTML = intBet;
+    counterBet = 0;
+  } else if (result == "lost") {
+    // intMoney -= intBet;
+    playerMoney.innerHTML = playerMoney.innerHTML;
+    counterMoney = counterMoney;
+    intBet = 0;
+    playerBet.innerHTML = intBet;
+    counterBet = 0;
   } else if (result == "blackjack") {
     intMoney += (intBet * 2.5);
     playerMoney.innerHTML = intMoney;
-    intBet = 0
+    counterMoney = intMoney;
+    intBet = 0;
     playerBet.innerHTML = intBet;
+    counterBet = 0;
   } else if (result == "draw") {
     intMoney += intBet;
     playerMoney.innerHTML = intMoney;
-    intBet = 0
+    counterMoney = intMoney;
+    intBet = 0;
     playerBet.innerHTML = intBet;
+    counterBet = 0;
+  } else if (result == "doubledown") {
+    intMoney += (intBet * 4);
+    playerMoney.innerHTML = intMoney;
+    counterMoney = intMoney;
+    intBet = 0;
+    playerBet.innerHTML = intBet;
+    counterBet = 0;
   }
 }
 
@@ -211,75 +227,93 @@ deal.addEventListener('click', function(e){
   let dealerPoints = document.querySelector("#dealer-points");
   let playerPoints = document.querySelector("#player-points");
   let messages = document.querySelector("#messages");
+  let playerBet = document.querySelector("#player-bet");
+  intBet = parseInt(playerBet.innerHTML);
   if (dealerPoints.innerHTML == "") {
-    dealDeck(deck)
-    const cardImageOne = document.createElement('img');
-    const cardImageTwo = document.createElement('img');
-    const cardImageThree = document.createElement('img');
-    const cardImageFour = document.createElement('img');
-    cardImageOne.src = getCardImageURL(dealerHandArray[0])
-    cardImageTwo.src = getCardImageURL(dealerHandArray[1])
-    cardImageThree.src = getCardImageURL(playerHandArray[0])
-    cardImageFour.src = getCardImageURL(playerHandArray[1])
-    dealerHand.appendChild(cardImageOne)
-    dealerHand.appendChild(cardImageTwo)
-    playerHand.appendChild(cardImageThree)
-    playerHand.appendChild(cardImageFour)
-    dealerScore = renderScore(calculatePoints(dealerHandArray));
-    playerScore = renderScore(calculatePoints(playerHandArray));
-    dealerPoints.innerHTML = dealerScore;
-    playerPoints.innerHTML = playerScore;
-    if (calculatePoints(dealerHandArray) == 21) {
-      const messages = document.querySelector("#messages");
+    if (intBet > 0) {
+      dealDeck(deck)
+      const cardImageOne = document.createElement('img');
+      const cardImageTwo = document.createElement('img');
+      const cardImageThree = document.createElement('img');
+      const cardImageFour = document.createElement('img');
+      cardImageOne.src = getCardImageURL(dealerHandArray[0])
+      cardImageTwo.src = getCardImageURL(dealerHandArray[1])
+      cardImageThree.src = getCardImageURL(playerHandArray[0])
+      cardImageFour.src = getCardImageURL(playerHandArray[1])
+      dealerHand.appendChild(cardImageOne)
+      dealerHand.appendChild(cardImageTwo)
+      playerHand.appendChild(cardImageThree)
+      playerHand.appendChild(cardImageFour)
+      dealerScore = renderScore(calculatePoints(dealerHandArray));
+      playerScore = renderScore(calculatePoints(playerHandArray));
+      dealerPoints.innerHTML = dealerScore;
+      playerPoints.innerHTML = playerScore;
+      if (calculatePoints(dealerHandArray) == 21) {
+        const messages = document.querySelector("#messages");
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = "Dealer Blackjack! 🤨";
+        messages.appendChild(messageDiv)
+        adjustMoney("lost");
+      };
+      if (calculatePoints(playerHandArray) == 21) {
+        const messages = document.querySelector("#messages");
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = "Player Blackjack! 🤗";
+        messages.appendChild(messageDiv);
+        adjustMoney("blackjack");
+      };
+    } else if (intBet == 0) {
+      let messages = document.querySelector("#messages");
       const messageDiv = document.createElement('div');
-      messageDiv.innerHTML = "Dealer Blackjack! 🤨";
-      messages.appendChild(messageDiv)
-    };
-    if (calculatePoints(playerHandArray) == 21) {
-      const messages = document.querySelector("#messages");
-      const messageDiv = document.createElement('div');
-      messageDiv.innerHTML = "Player Blackjack! 🤗";
-      messages.appendChild(messageDiv)
-    };
+      messageDiv.innerHTML = "Place Bet Cheapskate! 💰";
+      messages.appendChild(messageDiv);
+    }
   }
   else if (dealerPoints.innerHTML != "") {
-    dealerHand.innerHTML = "";
-    playerHand.innerHTML = "";
-    dealerPoints.innerHTML = "";
-    playerPoints.innerHTML = "";
-    messages.innerHTML = "";
-    dealerHandArray = [];
-    playerHandArray = [];
-    dealDeck(deck)
-    const cardImageOne = document.createElement('img');
-    const cardImageTwo = document.createElement('img');
-    const cardImageThree = document.createElement('img');
-    const cardImageFour = document.createElement('img');
-    cardImageOne.src = getCardImageURL(dealerHandArray[0])
-    cardImageTwo.src = getCardImageURL(dealerHandArray[1])
-    cardImageThree.src = getCardImageURL(playerHandArray[0])
-    cardImageFour.src = getCardImageURL(playerHandArray[1])
-    dealerHand.appendChild(cardImageOne)
-    dealerHand.appendChild(cardImageTwo)
-    playerHand.appendChild(cardImageThree)
-    playerHand.appendChild(cardImageFour)
-    dealerScore = renderScore(calculatePoints(dealerHandArray));
-    playerScore = renderScore(calculatePoints(playerHandArray));
-    dealerPoints.innerHTML = dealerScore;
-    playerPoints.innerHTML = playerScore;
-    if (calculatePoints(dealerHandArray) == 21) {
-      const messages = document.querySelector("#messages");
+    if (intBet > 0) {
+      dealerHand.innerHTML = "";
+      playerHand.innerHTML = "";
+      dealerPoints.innerHTML = "";
+      playerPoints.innerHTML = "";
+      messages.innerHTML = "";
+      dealerHandArray = [];
+      playerHandArray = [];
+      dealDeck(deck);
+      const cardImageOne = document.createElement('img');
+      const cardImageTwo = document.createElement('img');
+      const cardImageThree = document.createElement('img');
+      const cardImageFour = document.createElement('img');
+      cardImageOne.src = getCardImageURL(dealerHandArray[0]);
+      cardImageTwo.src = getCardImageURL(dealerHandArray[1]);
+      cardImageThree.src = getCardImageURL(playerHandArray[0]);
+      cardImageFour.src = getCardImageURL(playerHandArray[1]);
+      dealerHand.appendChild(cardImageOne);
+      dealerHand.appendChild(cardImageTwo);
+      playerHand.appendChild(cardImageThree);
+      playerHand.appendChild(cardImageFour);
+      dealerScore = renderScore(calculatePoints(dealerHandArray));
+      playerScore = renderScore(calculatePoints(playerHandArray));
+      dealerPoints.innerHTML = dealerScore;
+      playerPoints.innerHTML = playerScore;
+      if (calculatePoints(dealerHandArray) == 21) {
+        const messages = document.querySelector("#messages");
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = "Dealer Blackjack! 🤨";
+        messages.appendChild(messageDiv);
+      };
+      if (calculatePoints(playerHandArray) == 21) {
+        const messages = document.querySelector("#messages");
+        const messageDiv = document.createElement('div');
+        messageDiv.innerHTML = "Player Blackjack! 🤗";
+        messages.appendChild(messageDiv);
+      };
+    } else if (intBet == 0) {
+      let messages = document.querySelector("#messages");
       const messageDiv = document.createElement('div');
-      messageDiv.innerHTML = "Dealer Blackjack! 🤨";
-      messages.appendChild(messageDiv)
-    };
-    if (calculatePoints(playerHandArray) == 21) {
-      const messages = document.querySelector("#messages");
-      const messageDiv = document.createElement('div');
-      messageDiv.innerHTML = "Player Blackjack! 🤗";
-      messages.appendChild(messageDiv)
-    };
-  }
+      messageDiv.innerHTML = "Place Bet Cheapskate! 💰";
+      messages.appendChild(messageDiv);
+    }
+  };
 });
 
 // Hit event listener
@@ -347,9 +381,6 @@ doubleDown.addEventListener('click', function(e){
   }
 });
 
-let counterMoney = 500
-let counterBet = 0
-
 // Bet Button event listener
 const bet = document.querySelector('#bet-button');
 bet.addEventListener('click', function(e){ 
@@ -357,7 +388,7 @@ bet.addEventListener('click', function(e){
   let playerMoney = document.querySelector("#player-money");
   let dealerPoints = document.querySelector("#dealer-points");
   let messages = document.querySelector("#messages");
-  let counterBet = 0
+  // let counterBet = 0
   if (dealerPoints.innerHTML == "" || messages.innerHTML != "") {
     counterMoney -= 5;
     playerMoney.innerHTML = counterMoney;

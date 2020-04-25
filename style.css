@@ -13,6 +13,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 90%;
+  width: 100%;
 }
 
 #table {
@@ -24,7 +26,7 @@ body {
   padding: 10px;
   height: 90vh;
   width: 80%;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 #messages {
@@ -77,6 +79,9 @@ body {
 #stand-button,
 #dd-button,
 #bet-button {
+  display: flex;
+  align-items: center;
+  /* padding-bottom: 20px; */
   margin-left: 30px;
   margin-right: 30px;
   border-radius: 5px;
@@ -93,6 +98,10 @@ body {
 #bet-button {
   cursor: pointer;
 }
+
+/* #bet-button {
+  flex: 2;
+} */
 
 label {
   display: flex;
@@ -126,7 +135,8 @@ label {
 #player-bet {
   border: 1px solid gold;
   border-radius: 5px;
-  padding: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
   font-size: 22px;
   color: goldenrod;
 }
