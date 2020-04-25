@@ -106,6 +106,13 @@ shuffle(deck);
 
 // Deal the Deck function
 function dealDeck(deck) {
+  dealerHand.innerHTML = "";
+  playerHand.innerHTML = "";
+  dealerPoints.innerHTML = "";
+  playerPoints.innerHTML = "";
+  messages.innerHTML = "";
+  dealerHandArray = [];
+  playerHandArray = [];
   addNewCard(dealerHandArray)
   addNewCard(playerHandArray)
   addNewCard(dealerHandArray)
@@ -149,9 +156,9 @@ function calculatePoints(array) {
 
 // Build the hit function for Player
 function hitPlayer(array) {
-    addNewCard(array)
-    playerScore = renderScore(calculatePoints(playerHandArray));
-    playerPoints.innerHTML = playerScore;
+  addNewCard(array)
+  playerScore = renderScore(calculatePoints(playerHandArray));
+  playerPoints.innerHTML = playerScore;
 }
 
 // Build the hit function for Dealer
@@ -161,88 +168,84 @@ function hitDealer(array) {
   dealerPoints.innerHTML = dealerScore;
 }
 
+// Build function for changing display message
+function displayMessage(displayMe) {
+  messageDiv.innerHTML = displayMe;
+  messages.appendChild(messageDiv)
+}
+
 // Build the function for checking score
 function checkScore(dealer, player) {
-  let dealerFinal = dealer;
-  let playerFinal = player;
-
-  if (dealerFinal > playerFinal && dealerFinal < 21) {
-    messageDiv.innerHTML = "Dealer Wins! 😣";
-    messages.appendChild(messageDiv)
-    adjustMoney("lost")
-  } else if (playerFinal > dealerFinal && playerFinal < 21) {
-    messageDiv.innerHTML = "Player Wins! 😏";
-    messages.appendChild(messageDiv)
-    adjustMoney("won")
-  } else if (playerFinal == dealerFinal) {
-    messageDiv.innerHTML = "Push 😑";
-    messages.appendChild(messageDiv)
-    adjustMoney("draw")
-  } else if (dealerFinal == 21) {
-    messageDiv.innerHTML = "Dealer Blackjack! 🤬";
-    messages.appendChild(messageDiv)
+  if (dealer > player && dealer < 21) {
+    displayMessage("Dealer Wins! 😣");
     adjustMoney("lost");
-    return
-  } else if (playerFinal == 21) {
-    messageDiv.innerHTML = "Player Blackjack! 🤩";
-    messages.appendChild(messageDiv);
+  } else if (player > dealer && player < 21) {
+    displayMessage("Player Wins! 😏");
+    adjustMoney("won");
+  } else if (player == dealer) {
+    displayMessage("Push 😑");
+    adjustMoney("draw");
+  } else if (dealer == 21) {
+    displayMessage("Dealer Blackjack! 🤬");
+    adjustMoney("lost");
+  } else if (player == 21) {
+    displayMessage("Player Blackjack! 🤩");
     adjustMoney("blackjack");
-    return
-  } else if (dealerFinal > 21) {
-    messageDiv.innerHTML = "Dealer Busted 😎";
-    messages.appendChild(messageDiv)
-    adjustMoney("won")
-  }
-  if (playerFinal > 21) {
-    messageDiv.innerHTML = "Player Busted 😭";
-    messages.appendChild(messageDiv);
+  } else if (dealer > 21) {
+    displayMessage("Dealer Busted 😎");
+    adjustMoney("won");
+  } else if (player > 21) {
+    displayMessage("Player Busted 😭");
     adjustMoney("lost");
   }
 };
 
 // Build checkScore function for double downs
 function checkScoreDD(dealer, player) {
-  let dealerFinal = dealer;
-  let playerFinal = player; 
-
-  if (dealerFinal > playerFinal && dealerFinal < 21) {
-    messageDiv.innerHTML = "Big Loser! 🥴🥴🥴";
-    messages.appendChild(messageDiv)
-    adjustMoney("lostDD")
-  } else if (playerFinal > dealerFinal && playerFinal < 21) {
-    messageDiv.innerHTML = "Big Winner! 🤑🤑🤑";
-    messages.appendChild(messageDiv)
-    adjustMoney("wonDD")
-  } else if (playerFinal == dealerFinal) {
-    messageDiv.innerHTML = "Push 😅😅😅";
-    messages.appendChild(messageDiv)
-    adjustMoney("draw")
-  } else if (dealerFinal == 21) {
-    messageDiv.innerHTML = "Dealer Blackjack! 🤬🤬🤬";
-    messages.appendChild(messageDiv)
+  if (dealer > player && dealer < 21) {
+    displayMessage("Big Loser! 🥴🥴🥴");
     adjustMoney("lostDD");
-    return
-  } else if (playerFinal == 21) {
-    messageDiv.innerHTML = "Player Blackjack! Big Winner 💰💰💰";
-    messages.appendChild(messageDiv);
-    adjustMoney("wonDDBlackJack");
-    return
-  } else if (dealerFinal > 21) {
-    messageDiv.innerHTML = "Dealer Busted! 😎😎😎";
-    messages.appendChild(messageDiv);
+  } else if (player > dealer && player < 21) {
+    displayMessage("Big Winner! 🤑🤑🤑");
     adjustMoney("wonDD");
-    return
-  } else if (playerFinal > 21) {
-    messageDiv.innerHTML = "Player Busted. Big Loser! 😭😭😭";
-    messages.appendChild(messageDiv);
+  } else if (player == dealer) {
+    displayMessage("Push 😅😅😅");
+    adjustMoney("draw");
+  } else if (dealer == 21) {
+    displayMessage("Dealer Blackjack! 🤬🤬🤬");
     adjustMoney("lostDD");
-    return
+  } else if (player == 21) {
+    displayMessage("Player Blackjack! Big Winner 💰💰💰");
+    adjustMoney("wonDDBlackJack");
+  } else if (dealer > 21) {
+    displayMessage("Dealer Busted! 😎😎😎");
+    adjustMoney("wonDD");
+  } else if (player > 21) {
+    displayMessage("Player Busted. Big Loser! 😭😭😭");
+    adjustMoney("lostDD");
   }
 };
 
 // Build function to target what to adjust
 function adjustThis(betChange) {
-  intMoney += (betChange);
+  intMoney += betChange;
+  playerMoney.innerHTML = intMoney;
+  counterMoney = intMoney;
+  intBet = 0;
+  playerBet.innerHTML = intBet;
+  counterBet = 0;
+}
+
+function adjustThisDown() {
+  playerMoney.innerHTML = playerMoney.innerHTML;
+  counterMoney = intMoney;
+  intBet = 0;
+  playerBet.innerHTML = intBet;
+  counterBet = 0;
+}
+
+function adjustThisDownDD(betChange) {
+  intMoney -= betChange;
   playerMoney.innerHTML = intMoney;
   counterMoney = intMoney;
   intBet = 0;
@@ -257,15 +260,16 @@ function adjustMoney(result) {
   if (result == "won") {
     adjustThis(intBet * 2);
   } else if (result == "lost") {
-    adjustThis(playerMoney.innerHTML);
+    adjustThisDown();
   } else if (result == "blackjack") {
     adjustThis(intBet * 2.5);
   } else if (result == "draw") {
     adjustThis(intBet);
   } else if (result == "wonDD") {
+    console.log("hello")
     adjustThis(intBet * 2);
   } else if (result == "lostDD") {
-    adjustThis(intBet / 2);
+    adjustThisDown();
   } else if (result == "wonDDBlackJack") {
     adjustThis(intBet * 2.5);
   }
@@ -277,27 +281,17 @@ deal.addEventListener('click', function(e){
   intBet = parseInt(playerBet.innerHTML);
   if (dealerPoints.innerHTML == "") {
     if (intBet > 0) {
-      messages.innerHTML = "";
       dealDeck(deck)
     } else if (intBet == 0) {
-      messageDiv.innerHTML = "Place Bet Cheapskate! 💰";
-      messages.appendChild(messageDiv);
+      displayMessage("Place Bet Cheapskate! 💸")
     }
   }
   else if (dealerPoints.innerHTML != "") {
     if (intBet > 0) {
-      dealerHand.innerHTML = "";
-      playerHand.innerHTML = "";
-      dealerPoints.innerHTML = "";
-      playerPoints.innerHTML = "";
-      messages.innerHTML = "";
-      dealerHandArray = [];
-      playerHandArray = [];
       dealDeck(deck);
     } else if (intBet == 0) {
-      messageDiv.innerHTML = "Place Bet Cheapskate! 💰";
-      messages.appendChild(messageDiv);
-    }
+      displayMessage("Place Bet Cheapskate! 💸")
+    };
   };
 });
 
@@ -305,12 +299,12 @@ deal.addEventListener('click', function(e){
 const hit = document.querySelector('#hit-button');
 hit.addEventListener('click', function(e){
   if (calculatePoints(playerHandArray) < 22) {
-    hitPlayer(playerHandArray)
-    placeCards(playerHandArray, playerHand)
-  }
+    hitPlayer(playerHandArray);
+    placeCards(playerHandArray, playerHand);
+  };
   if (calculatePoints(playerHandArray) >= 21) {
     checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
-  }
+  };
 });
 
 // Stand event listener
@@ -318,32 +312,29 @@ const stand = document.querySelector('#stand-button');
 stand.addEventListener('click', function(e){
   if (calculatePoints(playerHandArray) < 22) {
     while (calculatePoints(dealerHandArray) <= 17) {
-      hitDealer(dealerHandArray)
-      placeCards(dealerHandArray, dealerHand)
-    }
+      hitDealer(dealerHandArray);
+      placeCards(dealerHandArray, dealerHand);
+    };
   checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
-  }
+  };
 });
 
 // Double Down event listener
 const doubleDown = document.querySelector('#dd-button');
 doubleDown.addEventListener('click', function(e){
   if (calculatePoints(playerHandArray) < 22) {
-    playerMoney.innerHTML = counterMoney;
-    // counterBet *= 2;
-    playerBet.innerHTML = counterBet;
-    addNewCard(playerHandArray)
-    checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
-    placeCards(playerHandArray, playerHand)
-  }
+    hitPlayer(playerHandArray);
+    placeCards(playerHandArray, playerHand);
+    checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
+  };
   if (calculatePoints(playerHandArray) < 22) {
     while (calculatePoints(dealerHandArray) <= 17) {
-      addNewCard(dealerHandArray)
+      hitDealer(dealerHandArray);
+      placeCards(dealerHandArray, dealerHand);
       checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
-      placeCards(dealerHandArray, dealerHand)
-    }
-  }
-  checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
+    };
+  };
+  // checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
 });
 
 // Bet Button event listener
@@ -354,5 +345,5 @@ bet.addEventListener('click', function(e){
     playerMoney.innerHTML = counterMoney;
     counterBet += 5;
     playerBet.innerHTML = counterBet;
-  }
+  };
 });
