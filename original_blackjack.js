@@ -10,14 +10,6 @@ let playerHandArray = [];
 let counterMoney = 500
 let counterBet = 0
 
-// Assigning variables to necessary DOM nodes
-let dealerHand = document.querySelector("#dealer-hand");
-let playerHand = document.querySelector("#player-hand");
-let dealerPoints = document.querySelector("#dealer-points");
-let playerPoints = document.querySelector("#player-points");
-let messages = document.querySelector("#messages");
-let playerBet = document.querySelector("#player-bet");
-
 // Function to create our deck
 function makeDeck() {
   let deck = [];
@@ -90,27 +82,30 @@ shuffle(deck);
 
 // Deal the Deck function
 function dealDeck(deck) {
-  dealerHandArray.push(deck.pop());
-  playerHandArray.push(deck.pop());
-  dealerHandArray.push(deck.pop());
-  playerHandArray.push(deck.pop());
-  const cardImageOne = document.createElement('img');
-  const cardImageTwo = document.createElement('img');
-  const cardImageThree = document.createElement('img');
-  const cardImageFour = document.createElement('img');
-  cardImageOne.src = getCardImageURL(dealerHandArray[0])
-  cardImageTwo.src = getCardImageURL(dealerHandArray[1])
-  cardImageThree.src = getCardImageURL(playerHandArray[0])
-  cardImageFour.src = getCardImageURL(playerHandArray[1])
-  dealerHand.appendChild(cardImageOne)
-  dealerHand.appendChild(cardImageTwo)
-  playerHand.appendChild(cardImageThree)
-  playerHand.appendChild(cardImageFour)
-  dealerScore = renderScore(calculatePoints(dealerHandArray));
-  playerScore = renderScore(calculatePoints(playerHandArray));
-  dealerPoints.innerHTML = dealerScore;
-  playerPoints.innerHTML = playerScore;
+  dealerHandArray.push(deck.pop())
+  playerHandArray.push(deck.pop())
+  dealerHandArray.push(deck.pop())
+  playerHandArray.push(deck.pop())
 }
+
+// Display points and keep score
+// function calculatePoints(array) {
+//   let score = 0;
+//   array.forEach(function (card) {
+//     if (card.point < 2) {
+//       if (score <= 10) {
+//         score += 11;
+//       } else {
+//         score += 1;
+//       }
+//     } else if (card.point >= 10) {
+//       score += 10;
+//     } else {
+//       score += card.point;
+//     }
+//   })
+//     return score;
+// }
 
 // testing aces
 function calculatePoints(array) {
@@ -134,6 +129,20 @@ function calculatePoints(array) {
   })
     return score;
 }
+// Build a function to handle aces 
+// function handleAces(card, score) {
+//   let totalAces = 0;
+//   let Ace = "";
+//   if (card.points == 1) {
+//     totalAces += 1
+//   }
+//   while (score <= 21) {
+//     if (totalAces <= 1) {
+      
+//     }
+//   }
+
+// }
 
 // Build the hit function for Player
 function hitPlayer(array) {
@@ -272,27 +281,33 @@ function adjustMoney(result) {
 // Deal event listener
 const deal = document.querySelector('#deal-button');
 deal.addEventListener('click', function(e){
+  let dealerHand = document.querySelector("#dealer-hand");
+  let playerHand = document.querySelector("#player-hand");
+  let dealerPoints = document.querySelector("#dealer-points");
+  let playerPoints = document.querySelector("#player-points");
+  let messages = document.querySelector("#messages");
+  let playerBet = document.querySelector("#player-bet");
   intBet = parseInt(playerBet.innerHTML);
   if (dealerPoints.innerHTML == "") {
     if (intBet > 0) {
       messages.innerHTML = "";
       dealDeck(deck)
-      // const cardImageOne = document.createElement('img');
-      // const cardImageTwo = document.createElement('img');
-      // const cardImageThree = document.createElement('img');
-      // const cardImageFour = document.createElement('img');
-      // cardImageOne.src = getCardImageURL(dealerHandArray[0])
-      // cardImageTwo.src = getCardImageURL(dealerHandArray[1])
-      // cardImageThree.src = getCardImageURL(playerHandArray[0])
-      // cardImageFour.src = getCardImageURL(playerHandArray[1])
-      // dealerHand.appendChild(cardImageOne)
-      // dealerHand.appendChild(cardImageTwo)
-      // playerHand.appendChild(cardImageThree)
-      // playerHand.appendChild(cardImageFour)
-      // dealerScore = renderScore(calculatePoints(dealerHandArray));
-      // playerScore = renderScore(calculatePoints(playerHandArray));
-      // dealerPoints.innerHTML = dealerScore;
-      // playerPoints.innerHTML = playerScore;
+      const cardImageOne = document.createElement('img');
+      const cardImageTwo = document.createElement('img');
+      const cardImageThree = document.createElement('img');
+      const cardImageFour = document.createElement('img');
+      cardImageOne.src = getCardImageURL(dealerHandArray[0])
+      cardImageTwo.src = getCardImageURL(dealerHandArray[1])
+      cardImageThree.src = getCardImageURL(playerHandArray[0])
+      cardImageFour.src = getCardImageURL(playerHandArray[1])
+      dealerHand.appendChild(cardImageOne)
+      dealerHand.appendChild(cardImageTwo)
+      playerHand.appendChild(cardImageThree)
+      playerHand.appendChild(cardImageFour)
+      dealerScore = renderScore(calculatePoints(dealerHandArray));
+      playerScore = renderScore(calculatePoints(playerHandArray));
+      dealerPoints.innerHTML = dealerScore;
+      playerPoints.innerHTML = playerScore;
       if (calculatePoints(dealerHandArray) == 21) {
         const messages = document.querySelector("#messages");
         const messageDiv = document.createElement('div');
@@ -324,22 +339,22 @@ deal.addEventListener('click', function(e){
       dealerHandArray = [];
       playerHandArray = [];
       dealDeck(deck);
-      // const cardImageOne = document.createElement('img');
-      // const cardImageTwo = document.createElement('img');
-      // const cardImageThree = document.createElement('img');
-      // const cardImageFour = document.createElement('img');
-      // cardImageOne.src = getCardImageURL(dealerHandArray[0]);
-      // cardImageTwo.src = getCardImageURL(dealerHandArray[1]);
-      // cardImageThree.src = getCardImageURL(playerHandArray[0]);
-      // cardImageFour.src = getCardImageURL(playerHandArray[1]);
-      // dealerHand.appendChild(cardImageOne);
-      // dealerHand.appendChild(cardImageTwo);
-      // playerHand.appendChild(cardImageThree);
-      // playerHand.appendChild(cardImageFour);
-      // dealerScore = renderScore(calculatePoints(dealerHandArray));
-      // playerScore = renderScore(calculatePoints(playerHandArray));
-      // dealerPoints.innerHTML = dealerScore;
-      // playerPoints.innerHTML = playerScore;
+      const cardImageOne = document.createElement('img');
+      const cardImageTwo = document.createElement('img');
+      const cardImageThree = document.createElement('img');
+      const cardImageFour = document.createElement('img');
+      cardImageOne.src = getCardImageURL(dealerHandArray[0]);
+      cardImageTwo.src = getCardImageURL(dealerHandArray[1]);
+      cardImageThree.src = getCardImageURL(playerHandArray[0]);
+      cardImageFour.src = getCardImageURL(playerHandArray[1]);
+      dealerHand.appendChild(cardImageOne);
+      dealerHand.appendChild(cardImageTwo);
+      playerHand.appendChild(cardImageThree);
+      playerHand.appendChild(cardImageFour);
+      dealerScore = renderScore(calculatePoints(dealerHandArray));
+      playerScore = renderScore(calculatePoints(playerHandArray));
+      dealerPoints.innerHTML = dealerScore;
+      playerPoints.innerHTML = playerScore;
       if (calculatePoints(dealerHandArray) == 21) {
         const messages = document.querySelector("#messages");
         const messageDiv = document.createElement('div');
