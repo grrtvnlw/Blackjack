@@ -159,7 +159,9 @@ function checkScore(dealer, player) {
   let playerMoney = document.querySelector("#player-money");
   let dealerFinal = dealer;
   let playerFinal = player;
+  // let doubleDownValue = doubledown;
 
+  // if (doubleDownValue == false) {
   if (dealerFinal > playerFinal && dealerFinal < 21) {
     messageDiv.innerHTML = "Dealer Wins! 😣";
     messages.appendChild(messageDiv)
@@ -173,7 +175,24 @@ function checkScore(dealer, player) {
     messages.appendChild(messageDiv)
     adjustMoney("draw")
   }
-}
+  // }
+
+  // else if (doubleDownValue == true) {
+  // if (dealerFinal > playerFinal && dealerFinal < 21) {
+  //   messageDiv.innerHTML = "Big Loser! 🥴";
+  //   messages.appendChild(messageDiv)
+  //   adjustMoney("lostDD")
+  // } else if (playerFinal > dealerFinal && playerFinal < 21) {
+  //   messageDiv.innerHTML = "Big Winner! 🤑";
+  //   messages.appendChild(messageDiv)
+  //   adjustMoney("wonDD")
+  // } else if (playerFinal == dealerFinal) {
+  //   messageDiv.innerHTML = "Push 😅";
+  //   messages.appendChild(messageDiv)
+  //   adjustMoney("draw")
+  //   }
+  // }
+};
 
 // Build a function for giving money
 function adjustMoney(result) {
@@ -209,8 +228,28 @@ function adjustMoney(result) {
     intBet = 0;
     playerBet.innerHTML = intBet;
     counterBet = 0;
-  } else if (result == "doubledown") {
-    intMoney += (intBet * 4);
+  } else if (result == "wonDD") {
+    // console.log(intBet)
+    // console.log(intMoney)
+    intMoney += (intBet * 2);
+    playerMoney.innerHTML = intMoney;
+    counterMoney = intMoney;
+    intBet = 0;
+    playerBet.innerHTML = intBet;
+    counterBet = 0;
+  } else if (result == "lostDD") {
+    // console.log(intBet)
+    // console.log(intMoney)
+    intMoney -= (intBet * 2);
+    playerMoney.innerHTML = intMoney;
+    counterMoney = intMoney;
+    intBet = 0;
+    playerBet.innerHTML = intBet;
+    counterBet = 0;
+  } else if (result == "wonDDBlackJack") {
+    // console.log(intBet)
+    // console.log(intMoney)
+    intMoney += (intBet * 2.5);
     playerMoney.innerHTML = intMoney;
     counterMoney = intMoney;
     intBet = 0;
@@ -231,6 +270,7 @@ deal.addEventListener('click', function(e){
   intBet = parseInt(playerBet.innerHTML);
   if (dealerPoints.innerHTML == "") {
     if (intBet > 0) {
+      messages.innerHTML = "";
       dealDeck(deck)
       const cardImageOne = document.createElement('img');
       const cardImageTwo = document.createElement('img');
@@ -300,12 +340,14 @@ deal.addEventListener('click', function(e){
         const messageDiv = document.createElement('div');
         messageDiv.innerHTML = "Dealer Blackjack! 🤨";
         messages.appendChild(messageDiv);
+        adjustMoney("lost");
       };
       if (calculatePoints(playerHandArray) == 21) {
         const messages = document.querySelector("#messages");
         const messageDiv = document.createElement('div');
         messageDiv.innerHTML = "Player Blackjack! 🤗";
         messages.appendChild(messageDiv);
+        adjustMoney("blackjack");
       };
     } else if (intBet == 0) {
       let messages = document.querySelector("#messages");
@@ -360,8 +402,28 @@ doubleDown.addEventListener('click', function(e){
   const dealerHand = document.querySelector("#dealer-hand");
   const dealerPoints = document.querySelector("#dealer-points");
   const playerPoints = document.querySelector("#player-points");
+  const messages = document.querySelector("#messages");
+  const messageDiv = document.createElement('div');
   if (calculatePoints(playerHandArray) < 22) {
-    hitPlayer(playerHandArray)
+    let playerBet = document.querySelector("#player-bet");
+    let playerMoney = document.querySelector("#player-money");
+    // counterMoney *= 2;
+    playerMoney.innerHTML = counterMoney;
+    counterBet *= 2;
+    playerBet.innerHTML = counterBet;
+    newCard = deck.pop();
+    playerHandArray.push(newCard);
+    if (calculatePoints(playerHandArray) > 21) {
+      messageDiv.innerHTML = "Player Busted. Big Loser! 😭😭😭";
+      messages.appendChild(messageDiv);
+      adjustMoney("lostDD")
+      // return
+    } else if (calculatePoints(playerHandArray) == 21) {
+      messageDiv.innerHTML = "Player Blackjack! Big Winner 💰💰💰";
+      messages.appendChild(messageDiv);
+      adjustMoney("wonDDBlackJack")
+      // return
+    }
     const cardImagePlayer = document.createElement('img');
     cardImagePlayer.src = getCardImageURL(playerHandArray[playerHandArray.length - 1])
     playerHand.appendChild(cardImagePlayer)
@@ -370,15 +432,43 @@ doubleDown.addEventListener('click', function(e){
   }
   if (calculatePoints(playerHandArray) < 22) {
     while (calculatePoints(dealerHandArray) <= 17) {
-      hitDealer(dealerHandArray)
+      // hitDealer(dealerHandArray)
+      // const messages = document.querySelector("#messages");
+      // const messageDiv = document.createElement('div');
+      newCard = deck.pop()
+      dealerHandArray.push(newCard)
+      if (calculatePoints(dealerHandArray) > 21) {
+        messageDiv.innerHTML = "Dealer Busted 😎😎😎";
+        messages.appendChild(messageDiv)
+        adjustMoney("wonDD")
+        // return
+      } else if (calculatePoints(dealerHandArray) == 21) {
+        messageDiv.innerHTML = "Dealer Blackjack! 🤬🤬🤬";
+        messages.appendChild(messageDiv);
+        adjustMoney("lostDD")
+        // return
+      }
       const cardImageDealer = document.createElement('img');
       cardImageDealer.src = getCardImageURL(dealerHandArray[dealerHandArray.length - 1])
       dealerHand.appendChild(cardImageDealer)
       dealerScore = renderScore(calculatePoints(dealerHandArray));
       dealerPoints.innerHTML = dealerScore;
     }
-  checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray))
+    // checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray))
   }
+  if (calculatePoints(dealerHandArray) > calculatePoints(playerHandArray) && calculatePoints(dealerHandArray) < 21) {
+    messageDiv.innerHTML = "Big Loser! 🥴";
+    messages.appendChild(messageDiv)
+    adjustMoney("lostDD")
+  } else if (calculatePoints(playerHandArray) > calculatePoints(dealerHandArray) && calculatePoints(playerHandArray) < 21) {
+    messageDiv.innerHTML = "Big Winner! 🤑";
+    messages.appendChild(messageDiv)
+    adjustMoney("wonDD")
+  } else if (calculatePoints(playerHandArray) == calculatePoints(dealerHandArray)) {
+    messageDiv.innerHTML = "Push 😅";
+    messages.appendChild(messageDiv)
+    adjustMoney("draw")
+    }
 });
 
 // Bet Button event listener
