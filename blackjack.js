@@ -6,9 +6,8 @@ const points = [1, 2, 3, 4, 5, 5, 7, 8, 8, 10, 11, 12, 13]
 let dealerHandArray = [];
 let playerHandArray = [];
 
-// Assigning score values for Player and Dealer
-// let dScore = 0;
-// let pScore = 0;
+// Assigning result variable for bet payout
+// let result = "";
 
 // Function to create our deck
 function makeDeck() {
@@ -115,12 +114,14 @@ function hitPlayer(array) {
     array.push(newCard);
     if (calculatePoints(array) > 21) {
       messageDiv.innerHTML = "Player Busted 😭";
-      messages.appendChild(messageDiv)
-      hit.removeEventListener('click', function(e){});
-      return
+      messages.appendChild(messageDiv);
+      adjustMoney("lost")
+      // return
     } else if (calculatePoints(array) == 21) {
       messageDiv.innerHTML = "Player Blackjack! 🤩";
-      messages.appendChild(messageDiv)
+      messages.appendChild(messageDiv);
+      adjustMoney("blackjack")
+      // return
     }
     else {
       return array;
@@ -136,11 +137,13 @@ function hitDealer(array) {
   if (calculatePoints(array) > 21) {
     messageDiv.innerHTML = "Dealer Busted 😎";
     messages.appendChild(messageDiv)
-    hit.removeEventListener('click', function(e){});
-    return
+    adjustMoney("won")
+    // return
   } else if (calculatePoints(array) == 21) {
     messageDiv.innerHTML = "Dealer Blackjack! 🤬";
     messages.appendChild(messageDiv);
+    adjustMoney("lost")
+    // return
   }
   else {
     return array;
@@ -151,18 +154,52 @@ function hitDealer(array) {
 function checkScore(dealer, player) {
   const messages = document.querySelector("#messages");
   const messageDiv = document.createElement('div');
+  let playerBet = document.querySelector("#player-bet");
+  let playerMoney = document.querySelector("#player-money");
   let dealerFinal = dealer;
   let playerFinal = player;
 
   if (dealerFinal > playerFinal && dealerFinal < 21) {
     messageDiv.innerHTML = "Dealer Wins! 😣";
     messages.appendChild(messageDiv)
+    adjustMoney("lost")
   } else if (playerFinal > dealerFinal && playerFinal < 21) {
     messageDiv.innerHTML = "Player Wins! 😏";
     messages.appendChild(messageDiv)
+    adjustMoney("won")
   } else if (playerFinal == dealerFinal) {
     messageDiv.innerHTML = "Push 😑";
     messages.appendChild(messageDiv)
+    adjustMoney("draw")
+  }
+}
+
+// Build a function for giving money
+function adjustMoney(result) {
+  let playerBet = document.querySelector("#player-bet");
+  let playerMoney = document.querySelector("#player-money");
+  intMoney = parseInt(playerMoney.innerHTML);
+  intBet = parseInt(playerBet.innerHTML);
+  if (result == "won") {
+    intMoney += (intBet * 2);
+    playerMoney.innerHTML = intMoney
+    intBet = 0
+    playerBet.innerHTML = intBet;
+  } else if (result == "lost") {
+    intMoney -= intBet;
+    playerMoney.innerHTML = intMoney;
+    intBet = 0
+    playerBet.innerHTML = intBet;
+  } else if (result == "blackjack") {
+    intMoney += (intBet * 2.5);
+    playerMoney.innerHTML = intMoney;
+    intBet = 0
+    playerBet.innerHTML = intBet;
+  } else if (result == "draw") {
+    intMoney += intBet;
+    playerMoney.innerHTML = intMoney;
+    intBet = 0
+    playerBet.innerHTML = intBet;
   }
 }
 
@@ -310,13 +347,21 @@ doubleDown.addEventListener('click', function(e){
   }
 });
 
-let counter = 0
+let counterMoney = 500
+let counterBet = 0
+
 // Bet Button event listener
 const bet = document.querySelector('#bet-button');
 bet.addEventListener('click', function(e){ 
   let playerBet = document.querySelector("#player-bet");
   let playerMoney = document.querySelector("#player-money");
-  playerMoney.innerHTML -= 5;
-  counter += 5;
-  playerBet.innerHTML = counter;
+  let dealerPoints = document.querySelector("#dealer-points");
+  let messages = document.querySelector("#messages");
+  let counterBet = 0
+  if (dealerPoints.innerHTML == "" || messages.innerHTML != "") {
+    counterMoney -= 5;
+    playerMoney.innerHTML = counterMoney;
+    counterBet += 5;
+    playerBet.innerHTML = counterBet;
+  }
 });
