@@ -10,7 +10,7 @@ let playerHandArray = [];
 let dScore = 0;
 let pScore = 0;
 
-// function to create our deck
+// Function to create our deck
 function makeDeck() {
   let deck = [];
   for (let i = 0; i < suits.length; i++) {
@@ -22,7 +22,7 @@ function makeDeck() {
   return deck;
 }
 
-// shuffle function built using the Fisher-Yates Shuffle algorithm
+// Shuffle function built using the Fisher-Yates Shuffle algorithm
 function shuffle(array) {
   let currentIndex = array.length;
   let randomIndex = 0;
@@ -62,7 +62,7 @@ function getCardImageURL(card) {
   }
 }
 
-// build a render function for rendering the card image
+// Build a render function for rendering the card image
 function renderImage(url) {
   return `
     <div class="image">
@@ -71,7 +71,7 @@ function renderImage(url) {
   `
 }
 
-// build a render function for rendering the point total
+// Build a render function for rendering the point total
 function renderScore(score) {
   return `
     <div class="score">
@@ -80,11 +80,10 @@ function renderScore(score) {
   `
 }
 
-// testing area
+// Create and shuffle the deck
 let deck = makeDeck();
 console.log(deck);
 shuffle(deck);
-console.log(deck[2]);
 
 // Deal the Deck function
 function dealDeck(deck) {
@@ -107,15 +106,6 @@ function calculatePoints(array) {
   return score;
 }
 
-console.log(playerHandArray)
-console.log(dealerHandArray)
-
-// Build the bust function
-function bust() {
-  return "You lose"
-  
-}
-
 // Build the hit function for Player
 function hitPlayer(array) {
     const messages = document.querySelector("#messages");
@@ -123,15 +113,13 @@ function hitPlayer(array) {
     newCard = deck.pop();
     array.push(newCard);
     if (calculatePoints(array) > 21) {
-      messageDiv.innerHTML = "Player busted";
+      messageDiv.innerHTML = "Player Busted 😭";
       messages.appendChild(messageDiv)
-      console.log("Player busted");
       hit.removeEventListener('click', function(e){});
       return
     } else if (calculatePoints(array) == 21) {
-      messageDiv.innerHTML = "Player Blackjack!";
+      messageDiv.innerHTML = "Player Blackjack! 🤩";
       messages.appendChild(messageDiv)
-      console.log("Player Blackjack!") 
     }
     else {
       return array;
@@ -145,15 +133,13 @@ function hitDealer(array) {
   newCard = deck.pop()
   array.push(newCard)
   if (calculatePoints(array) > 21) {
-    messageDiv.innerHTML = "Dealer busted";
+    messageDiv.innerHTML = "Dealer Busted 😎";
     messages.appendChild(messageDiv)
-    console.log("Dealer busted");
     hit.removeEventListener('click', function(e){});
     return
   } else if (calculatePoints(array) == 21) {
-    messageDiv.innerHTML = "Dealer Blackjack!";
+    messageDiv.innerHTML = "Dealer Blackjack! 🤬";
     messages.appendChild(messageDiv)
-    console.log("Dealer Blackjack!");
   }
   else {
     return array;
@@ -168,10 +154,10 @@ function checkScore(dealer, player) {
   let playerFinal = player;
 
   if (dealerFinal > playerFinal && dealerFinal < 21) {
-    messageDiv.innerHTML = "Dealer Wins!";
+    messageDiv.innerHTML = "Dealer Wins! 😣";
     messages.appendChild(messageDiv)
   } else if (playerFinal > dealerFinal && playerFinal < 21) {
-    messageDiv.innerHTML = "Player Wins!";
+    messageDiv.innerHTML = "Player Wins! 😏";
     messages.appendChild(messageDiv)
   } else if (playerFinal == dealerFinal) {
     messageDiv.innerHTML = "Push 😑";
@@ -179,7 +165,7 @@ function checkScore(dealer, player) {
   }
 }
 
-// deal event listener
+// Deal event listener
 const deal = document.querySelector('#deal-button');
 deal.addEventListener('click', function(e){
   let dealerHand = document.querySelector("#dealer-hand");
@@ -234,36 +220,39 @@ deal.addEventListener('click', function(e){
   }
 });
 
+// Hit event listener
 const hit = document.querySelector('#hit-button');
 hit.addEventListener('click', function(e){
   const playerHand = document.querySelector("#player-hand");
   const dealerHand = document.querySelector("#dealer-hand");
   const dealerPoints = document.querySelector("#dealer-points");
   const playerPoints = document.querySelector("#player-points");
-  hitPlayer(playerHandArray)
-  const cardImagePlayer = document.createElement('img');
-  cardImagePlayer.src = getCardImageURL(playerHandArray[playerHandArray.length - 1])
-  playerHand.appendChild(cardImagePlayer)
-  playerScore = renderScore(calculatePoints(playerHandArray));
-  playerPoints.innerHTML = playerScore;
+  if (calculatePoints(playerHandArray) < 22) {
+    hitPlayer(playerHandArray)
+    const cardImagePlayer = document.createElement('img');
+    cardImagePlayer.src = getCardImageURL(playerHandArray[playerHandArray.length - 1])
+    playerHand.appendChild(cardImagePlayer)
+    playerScore = renderScore(calculatePoints(playerHandArray));
+    playerPoints.innerHTML = playerScore;
+  }
 });
 
+// Stand event listener
 const stand = document.querySelector('#stand-button');
 stand.addEventListener('click', function(e){
   const dealerPoints = document.querySelector("#dealer-points");
   const dealerHand = document.querySelector("#dealer-hand");
   console.log("stand")
   console.log(calculatePoints(dealerHandArray))
-  while (calculatePoints(dealerHandArray) <= 17) {
-    hitDealer(dealerHandArray)
-    const cardImageDealer = document.createElement('img');
-    cardImageDealer.src = getCardImageURL(dealerHandArray[dealerHandArray.length - 1])
-    dealerHand.appendChild(cardImageDealer)
-    dealerScore = renderScore(calculatePoints(dealerHandArray));
-    dealerPoints.innerHTML = dealerScore;
-  }
+  if (calculatePoints(playerHandArray) < 22) {
+    while (calculatePoints(dealerHandArray) <= 17) {
+      hitDealer(dealerHandArray)
+      const cardImageDealer = document.createElement('img');
+      cardImageDealer.src = getCardImageURL(dealerHandArray[dealerHandArray.length - 1])
+      dealerHand.appendChild(cardImageDealer)
+      dealerScore = renderScore(calculatePoints(dealerHandArray));
+      dealerPoints.innerHTML = dealerScore;
+    }
   checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray))
+  }
 });
-
-// console.log(getDeck())
-
