@@ -118,8 +118,7 @@ label {
 
 #player-points, 
 #dealer-points,
-#player-money,
-#player-bet {
+{ 
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -140,7 +139,6 @@ label {
 #player-bet {
   display: flex;
   padding-left: 0px;
-  margin-left: -1px;
 }
 
 #dolla {
