@@ -262,15 +262,11 @@ function checkScoreDD(dealer, player) {
     adjustMoney("winDoubleDown");
     return;
   } else if (player > 21) {
-    console.log(intBet)
     displayMessage(`Player Busted. Big Loser! Lost $${intBet * 2} 😭😭😭`);
-    console.log(intBet)
     adjustMoney("lostDoubleDown");
     return;
   } else if (dealer > 21) {
-    console.log(intBet)
     displayMessage(`Dealer Busted! Won $${intBet * 4} 😎😎😎`);
-    console.log(intBet)
     adjustMoney("winDoubleDown");
     return;
   }
@@ -379,18 +375,12 @@ stand.addEventListener('click', function(e){
 // Double Down event listener
 const doubleDown = document.querySelector('#dd-button');
 doubleDown.addEventListener('click', function(e){
-  if (calculatePoints(playerHandArray) < 22) {
-    hitPlayer(playerHandArray);
-    placeCards(playerHandArray, playerHand);
-    if (calculatePoints(playerHandArray) >= 22) {
-      displayMessage(`Player Busted. Big Loser! Lost $${intBet * 2} 😭😭😭`);
-      adjustMoney("lostDoubleDown");
-    }
-    while (calculatePoints(dealerHandArray) < 17) {
-      hitDealer(dealerHandArray);
-      placeCards(dealerHandArray, dealerHand);
-    }
-  };
+  hitPlayer(playerHandArray);
+  placeCards(playerHandArray, playerHand);
+  while (calculatePoints(dealerHandArray) < 17) {
+    hitDealer(dealerHandArray);
+    placeCards(dealerHandArray, dealerHand);
+  }
   checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
 });
 
