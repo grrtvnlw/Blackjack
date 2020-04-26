@@ -261,13 +261,17 @@ function checkScoreDD(dealer, player) {
     displayMessage(`Player 21! Big Winner! Won $${intBet * 4} 💰💰💰`);
     adjustMoney("winDoubleDown");
     return;
-  } else if (dealer > 21) {
-    displayMessage(`Dealer Busted! Won $${intBet * 4} 😎😎😎`);
-    adjustMoney("winDoubleDown");
-    return;
   } else if (player > 21) {
+    console.log(intBet)
     displayMessage(`Player Busted. Big Loser! Lost $${intBet * 2} 😭😭😭`);
+    console.log(intBet)
     adjustMoney("lostDoubleDown");
+    return;
+  } else if (dealer > 21) {
+    console.log(intBet)
+    displayMessage(`Dealer Busted! Won $${intBet * 4} 😎😎😎`);
+    console.log(intBet)
+    adjustMoney("winDoubleDown");
     return;
   }
 };
@@ -379,15 +383,15 @@ doubleDown.addEventListener('click', function(e){
     hitPlayer(playerHandArray);
     placeCards(playerHandArray, playerHand);
     if (calculatePoints(playerHandArray) >= 22) {
-      displayMessage("Player Busted. Big Loser! 😭😭😭");
+      displayMessage(`Player Busted. Big Loser! Lost $${intBet * 2} 😭😭😭`);
       adjustMoney("lostDoubleDown");
     }
     while (calculatePoints(dealerHandArray) < 17) {
       hitDealer(dealerHandArray);
       placeCards(dealerHandArray, dealerHand);
     }
-    checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
   };
+  checkScoreDD(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
 });
 
 // Bet Button event listener
@@ -403,13 +407,16 @@ bet.addEventListener('click', function(e){
 
 // Modal
 // Get the modal
-var modal = document.getElementById("myModal");
+let modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+let btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementsByClassName("close")[0];
+
+// Get the submit button that closes the modal
+let submit = document.getElementById("subButton")
 
 // When the user clicks on the button, open the modal
 window.onload = function() {
@@ -418,6 +425,11 @@ window.onload = function() {
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks on the submit button, close the modal
+submit.onclick = function() {
   modal.style.display = "none";
 }
 

@@ -149,7 +149,7 @@ label {
 #dolla {
   display: flex;
   padding-left: 0px;
-  margin-left: -5px;
+  /* margin-left: -5px; */
 }
 
 img {
