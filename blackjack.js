@@ -104,10 +104,6 @@ function addNewCard(array) {
 
 // Deal the Deck function
 function dealDeck(deck) {
-  dealerHand.innerHTML = "";
-  playerHand.innerHTML = "";
-  dealerPoints.innerHTML = "";
-  playerPoints.innerHTML = "";
   messages.innerHTML = "";
   dealerHandArray = [];
   playerHandArray = [];
@@ -135,17 +131,13 @@ function dealDeck(deck) {
   };
 }
 
-// testing aces
+/// Display points and keep score
 function calculatePoints(array) {
-  // let totalAces = []
   let score = 0;
   array.forEach(function (card) {
     if (card.point < 2) {
-      // totalAces.push(card)
       if (score <= 10) {
         score += 11;
-      } else if (score > 21) {
-        score -= 10;
       } else {
         score += 1;
       }
@@ -184,7 +176,7 @@ function checkScore(dealer, player) {
     displayMessage(`Dealer Wins! Lost $${intBet} 😣`);
     adjustMoney("lost");
   } else if (player > dealer && player < 21) {
-    displayMessage(`Player Wins! Won $${intBet} 😏`);
+    displayMessage(`Player Wins! Won $${intBet * 2} 😏`);
     adjustMoney("won");
   } else if (player == dealer) {
     displayMessage(`Push. Get your $${intBet} back 😑`);
@@ -193,10 +185,10 @@ function checkScore(dealer, player) {
     displayMessage(`Dealer 21! Lost $${intBet} 🤬`);
     adjustMoney("lost");
   } else if (player == 21) {
-    displayMessage(`Player 21! Won $${intBet} 🤩`);
+    displayMessage(`Player 21! Won $${intBet * 2} 🤩`);
     adjustMoney("won");
   } else if (dealer > 21) {
-    displayMessage(`Dealer Busted! Won $${intBet} 😎`);
+    displayMessage(`Dealer Busted! Won $${intBet * 2} 😎`);
     adjustMoney("won");
   } else if (player > 21) {
     displayMessage(`Player Busted! Lost $${intBet} 😭`);
