@@ -239,11 +239,8 @@ function checkScoreDD(dealer, player) {
 
 // Build function for each outcome
 function win() {
-  console.log("win");
-  console.log(playerMoney.innerHTML)
   intMoney += counterBet * 2;
   playerMoney.innerHTML = intMoney;
-  console.log(playerMoney.innerHTML)
   counterMoney = intMoney;
   intBet = 0;
   playerBet.innerHTML = intBet;
@@ -251,10 +248,7 @@ function win() {
 }
 
 function lose() {
-  console.log("lose");
-  console.log(playerMoney.innerHTML)
   playerMoney.innerHTML = playerMoney.innerHTML;
-  console.log(playerMoney.innerHTML)
   counterMoney = intMoney;
   intBet = 0;
   playerBet.innerHTML = intBet;
@@ -262,11 +256,8 @@ function lose() {
 }
 
 function loseDoubleDown() {
-  console.log("doubledown lose");
-  console.log(playerMoney.innerHTML)
   intMoney -= intBet;
   playerMoney.innerHTML = intMoney;
-  console.log(playerMoney.innerHTML)
   counterMoney = intMoney;
   intBet = 0;
   playerBet.innerHTML = intBet;
@@ -274,12 +265,8 @@ function loseDoubleDown() {
 }
 
 function winDoubleDown() {
-  console.log("doubledown win");
-  console.log(playerMoney.innerHTML)
   intMoney += counterBet * 4;
   playerMoney.innerHTML = intMoney;
-  console.log(playerMoney.innerHTML)
-  console.log(playerMoney.innerHTML)
   counterMoney = intMoney;
   intBet = 0;
   playerBet.innerHTML = intBet;
@@ -287,11 +274,8 @@ function winDoubleDown() {
 }
 
 function blackjack() {
-  console.log("blackjack");
-  console.log(playerMoney.innerHTML)
   intMoney += counterBet * 2.5;
   playerMoney.innerHTML = intMoney;
-  console.log(playerMoney.innerHTML)
   counterMoney = intMoney;
   intBet = 0;
   playerBet.innerHTML = intBet;
@@ -299,11 +283,8 @@ function blackjack() {
 }
 
 function push() {
-  console.log("push");
-  console.log(playerMoney.innerHTML)
   intMoney += counterBet;
   playerMoney.innerHTML = intMoney;
-  console.log(playerMoney.innerHTML)
   counterMoney = intMoney;
   intBet = 0;
   playerBet.innerHTML = intBet;
