@@ -122,15 +122,15 @@ function dealDeck(deck) {
   dealerPoints.innerHTML = dealerScore;
   playerPoints.innerHTML = playerScore;
   if (calculatePoints(dealerHandArray) == 21 && calculatePoints(playerHandArray) == 21) {
-    displayMessage("Push! 🤬");
+    displayMessage(`Push! Get your $${intBet} back 🤬`);
     adjustMoney("draw");
   };
   if (calculatePoints(dealerHandArray) == 21) {
-    displayMessage("Dealer Blackjack! 🤬");
+    displayMessage(`Dealer Blackjack! Lost $${intBet} 🤬`);
     adjustMoney("lost");
   };
   if (calculatePoints(playerHandArray) == 21) {
-    displayMessage("Player Blackjack! 🤩");
+    displayMessage(`Player Blackjack! Won $${intBet * 2.5} 🤩`);
     adjustMoney("blackjack");
   };
 }
@@ -181,25 +181,25 @@ function displayMessage(displayMe) {
 // Build the function for checking score
 function checkScore(dealer, player) {
   if (dealer > player && dealer < 21) {
-    displayMessage("Dealer Wins! 😣");
+    displayMessage(`Dealer Wins! Lost $${intBet} 😣`);
     adjustMoney("lost");
   } else if (player > dealer && player < 21) {
-    displayMessage("Player Wins! 😏");
+    displayMessage(`Player Wins! Won $${intBet} 😏`);
     adjustMoney("won");
   } else if (player == dealer) {
-    displayMessage("Push 😑");
+    displayMessage(`Push. Get your $${intBet} back 😑`);
     adjustMoney("draw");
   } else if (dealer == 21) {
-    displayMessage("Dealer 21! 🤬");
+    displayMessage(`Dealer 21! Lost $${intBet} 🤬`);
     adjustMoney("lost");
   } else if (player == 21) {
-    displayMessage("Player 21! 🤩");
+    displayMessage(`Player 21! Won $${intBet} 🤩`);
     adjustMoney("won");
   } else if (dealer > 21) {
-    displayMessage("Dealer Busted 😎");
+    displayMessage(`Dealer Busted! Won $${intBet} 😎`);
     adjustMoney("won");
   } else if (player > 21) {
-    displayMessage("Player Busted 😭");
+    displayMessage(`Player Busted! Lost $${intBet} 😭`);
     adjustMoney("lost");
   }
 };
@@ -207,31 +207,31 @@ function checkScore(dealer, player) {
 // Build checkScore function for double downs
 function checkScoreDD(dealer, player) {
   if (dealer > player && dealer < 21) {
-    displayMessage("Big Loser! 🥴🥴🥴");
+    displayMessage(`Big Loser! Lost $${intBet * 2} 🥴🥴🥴`);
     adjustMoney("lostDoubleDown");
     return;
   } else if (player > dealer && player < 21) {
-    displayMessage("Big Winner! 🤑🤑🤑");
+    displayMessage(`Big Winner! Won $${intBet * 4} 🤑🤑🤑`);
     adjustMoney("winDoubleDown");
     return;
   } else if (player == dealer) {
-    displayMessage("Push 😅😅😅");
+    displayMessage(`Push. Get your $${intBet * 2} back 😅😅😅`);
     adjustMoney("draw");
     return;
   } else if (dealer == 21) {
-    displayMessage("Dealer 21! 🤬🤬🤬");
+    displayMessage(`Dealer 21! Lost $${intBet * 2} 🤬🤬🤬`);
     adjustMoney("lostDoubleDown");
     return;
   } else if (player == 21) {
-    displayMessage("Player 21! Big Winner 💰💰💰");
+    displayMessage(`Player 21! Big Winner! Won $${intBet * 4} 💰💰💰`);
     adjustMoney("winDoubleDown");
     return;
   } else if (dealer > 21) {
-    displayMessage("Dealer Busted! 😎😎😎");
+    displayMessage(`Dealer Busted! Won $${intBet * 4} 😎😎😎`);
     adjustMoney("winDoubleDown");
     return;
   } else if (player > 21) {
-    displayMessage("Player Busted. Big Loser! 😭😭😭");
+    displayMessage(`Player Busted. Big Loser! Lost $${intBet * 2} 😭😭😭`);
     adjustMoney("lostDoubleDown");
     return;
   }
