@@ -126,12 +126,10 @@ function dealDeck(deck) {
     adjustMoney("draw");
   };
   if (calculatePoints(dealerHandArray) == 21) {
-    // checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
     displayMessage("Dealer Blackjack! 🤬");
     adjustMoney("lost");
   };
   if (calculatePoints(playerHandArray) == 21) {
-    // checkScore(calculatePoints(dealerHandArray), calculatePoints(playerHandArray));
     displayMessage("Player Blackjack! 🤩");
     adjustMoney("blackjack");
   };
@@ -239,7 +237,7 @@ function checkScoreDD(dealer, player) {
   }
 };
 
-// Build function to target what to adjust
+// Build function for each outcome
 function win() {
   console.log("win");
   console.log(playerMoney.innerHTML)
