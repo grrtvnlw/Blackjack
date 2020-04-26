@@ -321,7 +321,7 @@ hit.addEventListener('click', function(e){
 const stand = document.querySelector('#stand-button');
 stand.addEventListener('click', function(e){
   if (calculatePoints(playerHandArray) < 22) {
-    while (calculatePoints(dealerHandArray) <= 17) {
+    while (calculatePoints(dealerHandArray) < 17) {
       hitDealer(dealerHandArray);
       placeCards(dealerHandArray, dealerHand);
     };
@@ -339,7 +339,7 @@ doubleDown.addEventListener('click', function(e){
       displayMessage("Player Busted. Big Loser! 😭😭😭");
       adjustMoney("lostDoubleDown");
     }
-    while (calculatePoints(dealerHandArray) <= 17) {
+    while (calculatePoints(dealerHandArray) < 17) {
       hitDealer(dealerHandArray);
       placeCards(dealerHandArray, dealerHand);
     }
