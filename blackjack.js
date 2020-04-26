@@ -237,9 +237,8 @@ function checkScoreDD(dealer, player) {
   }
 };
 
-// Build function for each outcome
-function win() {
-  intMoney += counterBet * 2;
+// Build reset function
+function reset(intMoney) {
   playerMoney.innerHTML = intMoney;
   counterMoney = intMoney;
   intBet = 0;
@@ -247,48 +246,35 @@ function win() {
   counterBet = 0;
 }
 
+// Build function for each outcome
+function win() {
+  intMoney += counterBet * 2;
+  reset(intMoney);
+}
+
 function lose() {
-  playerMoney.innerHTML = playerMoney.innerHTML;
-  counterMoney = intMoney;
-  intBet = 0;
-  playerBet.innerHTML = intBet;
-  counterBet = 0;
+  intMoney = playerMoney.innerHTML;
+  reset(intMoney);
 }
 
 function loseDoubleDown() {
   intMoney -= intBet;
-  playerMoney.innerHTML = intMoney;
-  counterMoney = intMoney;
-  intBet = 0;
-  playerBet.innerHTML = intBet;
-  counterBet = 0;
+  reset(intMoney);
 }
 
 function winDoubleDown() {
   intMoney += counterBet * 4;
-  playerMoney.innerHTML = intMoney;
-  counterMoney = intMoney;
-  intBet = 0;
-  playerBet.innerHTML = intBet;
-  counterBet = 0;
+  reset(intMoney);
 }
 
 function blackjack() {
   intMoney += counterBet * 2.5;
-  playerMoney.innerHTML = intMoney;
-  counterMoney = intMoney;
-  intBet = 0;
-  playerBet.innerHTML = intBet;
-  counterBet = 0;
+  reset(intMoney);
 }
 
 function push() {
   intMoney += counterBet;
-  playerMoney.innerHTML = intMoney;
-  counterMoney = intMoney;
-  intBet = 0;
-  playerBet.innerHTML = intBet;
-  counterBet = 0;
+  reset(intMoney);
 }
 
 // Build a function for adjusting money
