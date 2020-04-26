@@ -6,20 +6,41 @@ const points = [1, 2, 3, 4, 5, 5, 7, 8, 8, 10, 11, 12, 13]
 let dealerHandArray = [];
 let playerHandArray = [];
 
+// Get user input from the Modal
 function getInput(e) {
   e.preventDefault();
   document.getElementById("player-money").innerHTML = (document.getElementById("userInput").value)
-}  
+  let el = document.getElementsByName('decks'); 
+    
+  for(i = 0; i < el.length; i++) { 
+      if (el[i].checked)  {
+        console.log(document.querySelector(".decks").value);
+      }
+  } 
+}
 
+// function getRadioValue(e) { 
+//   e.preventDefault();
+//   var el = document.getElementsByName('decks'); 
+    
+//   for(i = 0; i < el.length; i++) { 
+//       if (el[i].checked)  {
+//         console.log(document.querySelector(".decks").value);
+//       }
+//   } 
+// } 
+
+// Add event listeners to the form
 const form = document.querySelector('#theform');
 form.addEventListener('submit', getInput);
-
 form.addEventListener('submit', assignMoney);
+// form.addEventListener('submit', getRadioValue);
 
 // Assigning result variables for bet payout
 let counterMoney = 0;
 let counterBet = 0;
 
+// Refresh the value of counterMoney with the int value of the user input 
 function assignMoney() {
   counterMoney = parseInt(document.getElementById("player-money").innerHTML, 10);
 } 
@@ -68,6 +89,13 @@ function shuffle(array) {
 // Instantiate and shuffle the deck
 let deck = makeDeck();
 shuffle(deck);
+console.log(deck)
+// let tripleDeck = deck.concat(deck).concat(deck)
+// shuffle(tripleDeck);
+// console.log(tripleDeck)
+// let sixDeck = deck.concat(deck).concat(deck).concat(deck).concat(deck).concat(deck)
+// shuffle(sixDeck);
+// console.log(sixDeck)
 
 // build function for getting a card image URL
 function getCardImageURL(card) {

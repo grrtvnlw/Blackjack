@@ -8,22 +8,17 @@
 </head>
 <body>
   <div class="my-container">
-  <!-- Trigger/Open The Modal -->
-    <!-- <button id="myBtn">Open Modal</button> -->
-
     <!-- The Modal -->
     <div id="myModal" class="modal">
-
       <!-- Modal content -->
       <div class="modal-content">
-        <span class="close">&times;</span>
         <p>Welcome to Blackjack!</p>
         <form id="theform" onsubmit="return false">
           <div class="deck-div">
             <p>How many decks in the shoe?</p>
-            <label for="single">Single Deck<button type="radio" id="single"></button></label>
-            <label for="three">Three Deck<button type="radio" id="three"></button></label>
-            <label for="six">Six Deck<button type="radio" id="six"></button></label>
+            <label for="single">Single Deck<input type="radio" id="one" value="single" name="decks"></input></label>
+            <label for="three">Three Deck<input type="radio" id="three" value="three" name="decks"></input></label>
+            <label for="six">Six Deck<input type="radio" id="six" value="six" name="decks"></input></label>
           </div>
           <div class="dollar-div">
             <p>How many dollars on the table?</p>
@@ -32,9 +27,10 @@
           </div>
         </form>
         <p>Good luck!</p>
+        <span class="close">&times;</span>
       </div>
-
     </div>
+    <!--Blackjack Table area-->
     <div id="table">
 
       <div id="messages"></div>

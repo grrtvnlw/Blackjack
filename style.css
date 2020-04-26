@@ -212,4 +212,5 @@ label {
 
 input[type="text"] {
   width: 90%;
+  margin-bottom: 15px;
 }
