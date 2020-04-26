@@ -6,35 +6,27 @@ const points = [1, 2, 3, 4, 5, 5, 7, 8, 8, 10, 11, 12, 13]
 let dealerHandArray = [];
 let playerHandArray = [];
 
-// Get user input from the Modal
+// Get user input from the Modal for decks and dollars
 function getInput(e) {
   e.preventDefault();
   document.getElementById("player-money").innerHTML = (document.getElementById("userInput").value)
-  let el = document.getElementsByName('decks'); 
-    
-  for(i = 0; i < el.length; i++) { 
-      if (el[i].checked)  {
-        console.log(document.querySelector(".decks").value);
-      }
-  } 
+  var radios = document.getElementsByName('decks');
+
+  for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+      // do whatever you want with the checked radio
+      document.getElementById("deck-number").innerHTML = radios[i].value;
+      // only one radio can be logically checked, don't check the rest
+      break;
+    }
+  }
 }
 
-// function getRadioValue(e) { 
-//   e.preventDefault();
-//   var el = document.getElementsByName('decks'); 
-    
-//   for(i = 0; i < el.length; i++) { 
-//       if (el[i].checked)  {
-//         console.log(document.querySelector(".decks").value);
-//       }
-//   } 
-// } 
-
-// Add event listeners to the form
+// Add event listeners to the form to call functions when form is submitted
 const form = document.querySelector('#theform');
 form.addEventListener('submit', getInput);
 form.addEventListener('submit', assignMoney);
-// form.addEventListener('submit', getRadioValue);
+form.addEventListener('submit', buildDecks);
 
 // Assigning result variables for bet payout
 let counterMoney = 0;
@@ -87,15 +79,24 @@ function shuffle(array) {
 }
 
 // Instantiate and shuffle the deck
-let deck = makeDeck();
-shuffle(deck);
-console.log(deck)
-// let tripleDeck = deck.concat(deck).concat(deck)
-// shuffle(tripleDeck);
-// console.log(tripleDeck)
-// let sixDeck = deck.concat(deck).concat(deck).concat(deck).concat(deck).concat(deck)
-// shuffle(sixDeck);
-// console.log(sixDeck)
+let deck = [];
+
+function buildDecks() {
+  let buildIt = makeDeck();
+  if (document.getElementById("deck-number").innerHTML == "Single") {
+    deck = buildIt;
+    shuffle(deck);
+    console.log(deck);
+  } else if (document.getElementById("deck-number").innerHTML == "Three") {
+    deck = buildIt.concat(buildIt).concat(buildIt)
+    shuffle(deck);
+    console.log(deck);
+  } else if (document.getElementById("deck-number").innerHTML == "Six") {
+    deck = buildIt.concat(buildIt).concat(buildIt).concat(buildIt).concat(buildIt).concat(buildIt)
+    shuffle(deck);
+    console.log(deck)
+  }
+}
 
 // build function for getting a card image URL
 function getCardImageURL(card) {

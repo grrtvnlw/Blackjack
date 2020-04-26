@@ -112,7 +112,8 @@ label {
   color: goldenrod;
 }
 
-.player-label {
+.player-label,
+.dealer-label {
   justify-content: space-evenly;
 }
 
@@ -139,6 +140,10 @@ label {
 #player-bet {
   display: flex;
   padding-left: 0px;
+}
+
+#deck-number {
+  padding-left: 5px;
 }
 
 #dolla {
