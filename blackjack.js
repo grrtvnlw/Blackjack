@@ -393,6 +393,9 @@ bet.addEventListener('click', function(e){
     counterBet += 5;
     playerBet.innerHTML = counterBet;
   };
+  if (playerMoney.innerHTML == "0") {
+    displayMessage("You're broke! 😳 Good thing the money is only digital. ")
+  }
 });
 
 // Modal
