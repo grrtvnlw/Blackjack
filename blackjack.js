@@ -101,15 +101,15 @@ function buildDecks() {
 // build function for getting a card image URL
 function getCardImageURL(card) {
   if (card.point < 2) {
-    return `/images/ace_of_${card.suit}.png`;
+    return `images/ace_of_${card.suit}.png`;
   } else if (card.point <= 10) {
-    return `/images/${card.point}_of_${card.suit}.png`;
+    return `images/${card.point}_of_${card.suit}.png`;
   } else if (card.point == 11) {
-    return `/images/jack_of_${card.suit}.png`;
+    return `images/jack_of_${card.suit}.png`;
   } else if (card.point == 12) {
-    return `/images/queen_of_${card.suit}.png`;
+    return `images/queen_of_${card.suit}.png`;
   } else if (card.point == 13) {
-    return `/images/king_of_${card.suit}.png`;
+    return `images/king_of_${card.suit}.png`;
   }
 }
 
