@@ -1,5 +1,5 @@
 # Blackjack
-![Image description](assets/Blackjack-App.png)
+![Image description](images/Blackjack-App.png)
 ## Contents
 - What It Is
 - What I Used
