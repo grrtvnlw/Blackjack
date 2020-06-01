@@ -18,6 +18,11 @@ This project taught me the importance of refactoring code and the value of using
 - CSS
 - JavaScript
 ## Challenges and Solutions
+- Challenge #1: Writing Clean Functions that Could be Re-used
+
+- Challenge #2: Adding Additional Features such as Betting and Double-Down
+
+- Challenge #3: Writing Code to Handle a Fluctuating Value for the Ace
 ## Minimum Viable Product
 ## Stretch Goals
 ## Screenshots
